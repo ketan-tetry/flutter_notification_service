@@ -1,6 +1,6 @@
 # Flutter Notification Service
 The notification service class is built to fix the various firebase notification issues, 
-it's easy to integrate in any exiting project.
+it's easy to integrate in exiting flutter project.
 
 ### Step 1
 Add required dependencies for firebase notification.
@@ -13,7 +13,7 @@ dependencies:
 
 ### Step 2
 Create notification helper class which extends the notification service class and implement
-all it's methods. Call the parent constructer using super passing notification icon name as the
+all it's methods. Call the parent constructor using super passing notification icon name as the
 argument. Set the global key in case you want to perform notification click re-direction.
 ```dart
 class NotificationServiceHelper extends NotificationService {
