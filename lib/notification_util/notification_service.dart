@@ -1,3 +1,4 @@
+import 'package:disable_battery_optimization/disable_battery_optimization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -150,4 +151,36 @@ abstract class NotificationService {
   /// Print error message information
   void _printError(Object error) =>
       debugPrint('NotificationService: ${error.toString()}');
+
+  Future<bool> isAutoStartEnabled() =>
+      DisableBatteryOptimization.isAutoStartEnabled;
+
+  Future<bool> isBatteryOptimizationDisabled() =>
+      DisableBatteryOptimization.isBatteryOptimizationDisabled;
+
+  Future<bool> isManufacturerBatteryOptimizationDisabled() =>
+      DisableBatteryOptimization.isManufacturerBatteryOptimizationDisabled;
+
+  Future<bool> isAllBatteryOptimizationDisabled() =>
+      DisableBatteryOptimization.isAllBatteryOptimizationDisabled;
+
+  Future<bool> showEnableAutoStartSettings() =>
+      DisableBatteryOptimization.showEnableAutoStartSettings(
+          "Enable Auto Start",
+          "Follow the steps and enable the auto start of this app");
+
+  Future<bool> showDisableBatteryOptimizationSettings() =>
+      DisableBatteryOptimization.showDisableBatteryOptimizationSettings();
+
+  Future<bool> showDisableManufacturerBatteryOptimizationSettings() =>
+      DisableBatteryOptimization.showDisableManufacturerBatteryOptimizationSettings(
+          "Your device has additional battery optimization",
+          "Follow the steps and disable the optimizations to allow smooth functioning of this app");
+
+  Future<bool> showDisableAllOptimizationsSettings() =>
+      DisableBatteryOptimization.showDisableAllOptimizationsSettings(
+          "Enable Auto Start",
+          "Follow the steps and enable the auto start of this app",
+          "Your device has additional battery optimization",
+          "Follow the steps and disable the optimizations to allow smooth functioning of this app");
 }

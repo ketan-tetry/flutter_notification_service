@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'notification_util/notification_service_helper.dart';
 
@@ -63,11 +64,71 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Notification Enabled: ${NotificationServiceHelper.instance.isAuthorized}',
-            ),
+            MaterialButton(
+                child: Text("Is Auto Start Enabled"),
+                onPressed: () async {
+                  bool isAutoStartEnabled = await NotificationServiceHelper
+                      .instance
+                      .isAutoStartEnabled();
+                  Fluttertoast.showToast(
+                      msg:
+                          "Auto start is ${isAutoStartEnabled ? "Enabled" : "Disabled"}");
+                }),
+            MaterialButton(
+                child: Text("Is Battery optimization disabled"),
+                onPressed: () async {
+                  bool isBatteryOptimizationDisabled =
+                      await NotificationServiceHelper.instance
+                          .isBatteryOptimizationDisabled();
+                  Fluttertoast.showToast(
+                      msg:
+                          "Battery optimization is ${!isBatteryOptimizationDisabled ? "Enabled" : "Disabled"}");
+                }),
+            MaterialButton(
+                child: Text("Is Manufacturer Battery optimization disabled"),
+                onPressed: () async {
+                  bool isManBatteryOptimizationDisabled =
+                      await NotificationServiceHelper.instance
+                          .isManufacturerBatteryOptimizationDisabled();
+                  Fluttertoast.showToast(
+                      msg:
+                          "Manufacturer Battery optimization is ${!isManBatteryOptimizationDisabled ? "Enabled" : "Disabled"}");
+                }),
+            MaterialButton(
+                child: Text("Are All Battery optimizations disabled"),
+                onPressed: () async {
+                  bool isAllBatteryOptimizationDisabled =
+                      await NotificationServiceHelper.instance
+                          .isAllBatteryOptimizationDisabled();
+                  Fluttertoast.showToast(
+                      msg:
+                          "All Battery optimizations are disabled ${isAllBatteryOptimizationDisabled ? "True" : "False"}");
+                }),
+            MaterialButton(
+                child: Text("Enable Auto Start"),
+                onPressed: () {
+                  NotificationServiceHelper.instance
+                      .showEnableAutoStartSettings();
+                }),
+            MaterialButton(
+                child: Text("Disable Battery Optimizations"),
+                onPressed: () {
+                  NotificationServiceHelper.instance
+                      .showDisableBatteryOptimizationSettings();
+                }),
+            MaterialButton(
+                child: Text("Disable Manufacturer Battery Optimizations"),
+                onPressed: () {
+                  NotificationServiceHelper.instance
+                      .showDisableManufacturerBatteryOptimizationSettings();
+                }),
+            MaterialButton(
+                child: Text("Disable all Optimizations"),
+                onPressed: () {
+                  NotificationServiceHelper.instance
+                      .showDisableAllOptimizationsSettings();
+                })
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
