@@ -13,7 +13,7 @@ class NotificationServiceHelper extends NotificationService {
 
   @override
   void setGlobalNavigationKey(GlobalKey<NavigatorState> globalKey) {
-    _instance._globalKey = globalKey;
+    _globalKey = globalKey;
   }
 
   @override
@@ -23,7 +23,12 @@ class NotificationServiceHelper extends NotificationService {
 
   @override
   void handleNotificationClick(RemoteMessage message) {
-    if (message == null || message.notification == null) return;
-    debugPrint('On Notification Tap: ${message.notification.title}');
+    if (message == null || message.data == null) return;
+    debugPrint('On Notification Tap');
+  }
+
+  @override
+  void onSelectNotification(String payload) {
+    if (payload == null || payload.isEmpty) return;
   }
 }

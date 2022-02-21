@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,7 +12,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NotificationServiceHelper.instance.initialize();
+  await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
@@ -57,6 +58,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  void initState() {
+    NotificationServiceHelper.instance.initialize();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             MaterialButton(
-                child: Text("Is Auto Start Enabled"),
+                child: const Text("Is Auto Start Enabled"),
                 onPressed: () async {
                   bool isAutoStartEnabled = await NotificationServiceHelper
                       .instance
@@ -76,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           "Auto start is ${isAutoStartEnabled ? "Enabled" : "Disabled"}");
                 }),
             MaterialButton(
-                child: Text("Is Battery optimization disabled"),
+                child: const Text("Is Battery optimization disabled"),
                 onPressed: () async {
                   bool isBatteryOptimizationDisabled =
                       await NotificationServiceHelper.instance
@@ -86,7 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           "Battery optimization is ${!isBatteryOptimizationDisabled ? "Enabled" : "Disabled"}");
                 }),
             MaterialButton(
-                child: Text("Is Manufacturer Battery optimization disabled"),
+                child:
+                    const Text("Is Manufacturer Battery optimization disabled"),
                 onPressed: () async {
                   bool isManBatteryOptimizationDisabled =
                       await NotificationServiceHelper.instance
@@ -96,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           "Manufacturer Battery optimization is ${!isManBatteryOptimizationDisabled ? "Enabled" : "Disabled"}");
                 }),
             MaterialButton(
-                child: Text("Are All Battery optimizations disabled"),
+                child: const Text("Are All Battery optimizations disabled"),
                 onPressed: () async {
                   bool isAllBatteryOptimizationDisabled =
                       await NotificationServiceHelper.instance
@@ -106,25 +114,25 @@ class _MyHomePageState extends State<MyHomePage> {
                           "All Battery optimizations are disabled ${isAllBatteryOptimizationDisabled ? "True" : "False"}");
                 }),
             MaterialButton(
-                child: Text("Enable Auto Start"),
+                child: const Text("Enable Auto Start"),
                 onPressed: () {
                   NotificationServiceHelper.instance
                       .showEnableAutoStartSettings();
                 }),
             MaterialButton(
-                child: Text("Disable Battery Optimizations"),
+                child: const Text("Disable Battery Optimizations"),
                 onPressed: () {
                   NotificationServiceHelper.instance
                       .showDisableBatteryOptimizationSettings();
                 }),
             MaterialButton(
-                child: Text("Disable Manufacturer Battery Optimizations"),
+                child: const Text("Disable Manufacturer Battery Optimizations"),
                 onPressed: () {
                   NotificationServiceHelper.instance
                       .showDisableManufacturerBatteryOptimizationSettings();
                 }),
             MaterialButton(
-                child: Text("Disable all Optimizations"),
+                child: const Text("Disable all Optimizations"),
                 onPressed: () {
                   NotificationServiceHelper.instance
                       .showDisableAllOptimizationsSettings();

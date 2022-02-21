@@ -28,7 +28,7 @@ class NotificationServiceHelper extends NotificationService {
 
   @override
   void setGlobalNavigationKey(GlobalKey<NavigatorState> globalKey) {
-    _instance._globalKey = globalKey;
+    _globalKey = globalKey;
   }
 
   @override
@@ -38,14 +38,19 @@ class NotificationServiceHelper extends NotificationService {
 
   @override
   void handleNotificationClick(RemoteMessage message) {
-    if (message == null || message.notification == null) return;
-    debugPrint('On Notification Tap: ${message.notification.title}');
+    if (message == null || message.data == null) return;
+    debugPrint('On Notification Tap');
+  }
+
+  @override
+  void onSelectNotification(String payload) {
+    if (payload == null || payload.isEmpty) return;
   }
 }
 ```
 
 ### Step 3
-Initialize the notification service in the main method, for handling background notifications
+Initialize the firebase app in the main method, for handling background notifications
 create top level method and pass it to the FirebaseMessaging.onBackgroundMessage method.
 ```dart
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -55,7 +60,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NotificationServiceHelper.instance.initialize();
+  await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
@@ -83,7 +88,7 @@ which is used when app is in background or terminated state.
 ```
 
 ### Step 5
-You can also check whether the notification are turned off by the user, or notification
+Initialize the notification service helper. You can also check whether the notification are turned off by the user, or notification
 permission denined in iOS.
 ```dart
 class MyHomePage extends StatefulWidget {
@@ -96,6 +101,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  @override
+  void initState() {
+    NotificationServiceHelper.instance.initialize();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
